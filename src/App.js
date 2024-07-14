@@ -3,8 +3,9 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Page from "./Page";
-import { auth } from "./components/auth/Firebase";
+import { auth } from "./components/db/Firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
+import Create from "./components/Create";
 
 function App() {
   const [authUser, setAuthUser] = useState(null);
@@ -20,7 +21,7 @@ function App() {
       setLoading(false);
     });
   }, []);
-
+  
   const logout = async () => {
     try {
       await signOut(auth);
@@ -38,10 +39,16 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route
-          path="/"
-          element={
-            authUser ? (
+          path="/" element={authUser ? (
               <Page authUser={authUser} logout={logout} />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+        <Route
+          path="/create" element={authUser ? (
+              <Create authUser={authUser} />
             ) : (
               <Navigate to="/login" />
             )

@@ -1,12 +1,13 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Navbar({ logout }) {
   return (
     <nav className="flex justify-between items-center p-4">
       <div className="flex items-center">
-        <h2 className="text-2xl font-bold">
+        <Link to={"/"} className="text-2xl font-bold">
           <span className="text-orange-500">Photo</span>blog
-        </h2>
+        </Link>
         <input
           type="search"
           placeholder="Search..."
@@ -14,15 +15,15 @@ export default function Navbar({ logout }) {
         />
       </div>
       <ul className="flex items-center gap-4">
-        <li className="text-gray-600 hover:text-gray-900 cursor-pointer text-lg">
+        <Link to={"/"} className="text-gray-600 hover:text-gray-900 cursor-pointer text-lg">
           Home
-        </li>
-        <li className="text-gray-600 hover:text-gray-900 cursor-pointer text-lg">
-          Create
-        </li>
+        </Link>
+        <Link to={"/create"} className="text-gray-600 hover:text-gray-900 cursor-pointer text-lg">
+            Create
+        </Link>
         <li>
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md"
+            className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded-md"
             onClick={() => logout()}
           >
             Logout
