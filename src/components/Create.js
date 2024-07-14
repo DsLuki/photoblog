@@ -1,17 +1,28 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { db, colRef, addDoc } from "./db/Firebase";
 
 export default function Create({ authUser }) {
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    createdBy: authUser.email,
-    createdAt: new Date(),
+    title: "",
+    description: "",
+    author: authUser.email,
+    author_id: authUser.uid,
   });
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setFormData((prevFormData) => ({...prevFormData, [name]: value }));
+    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+  };
+
+  const handleCreatePost = (e) => {
+    e.preventDefault();
+    addDoc(colRef, {
+      title: formData.title,
+      description: formData.description,
+      author: formData.author,
+      author_id: formData.author_id,
+    });
   };
 
   return (
@@ -19,12 +30,17 @@ export default function Create({ authUser }) {
       <div className="w-full md:w-1/2 lg:w-1/3 xl:w-1/3 p-4">
         <div className="bg-white shadow-lg rounded-md p-4 mx-auto border-orange-500 border-2">
           <div className="flex justify-between mb-4">
-            <h2 className="text-2xl font-bold text-orange-500">Create New Post</h2>
-            <Link to="/" className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">
+            <h2 className="text-2xl font-bold text-orange-500">
+              Create New Post
+            </h2>
+            <Link
+              to="/"
+              className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded"
+            >
               Back to home page
             </Link>
           </div>
-          <form>
+          <form onSubmit={handleCreatePost}>
             <label className="block mb-2">
               <span className="text-gray-700">Title:</span>
               <input

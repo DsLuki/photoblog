@@ -1,19 +1,23 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import BlogList from "./components/BlogList";
+import { getPosts } from "./components/db/Firebase";
 
-function Page({ authUser, logout }) {
+function Page({ logout }) {
+  const [posts, setPosts] = useState([]);
 
-  console.log(authUser)
+  useEffect(() => {
+    getPosts().then((posts) => setPosts(posts));
+  }, []);
+
+  console.log(posts);
 
   return (
-    <>    
+    <>
       <Navbar logout={logout} />
-      <BlogList />
+      <BlogList posts={posts} />
     </>
-
   );
 }
 
 export default Page;
-
